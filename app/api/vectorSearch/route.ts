@@ -4,7 +4,7 @@ import mongoClientPromise from '@/app/lib/mongodb';
 
 export async function POST(req: Request) {
   const client = await mongoClientPromise;
-  const dbName = "pdf-docs";
+  const dbName = "pdf_docs";
   const collectionName = "embeddings";
   const collection = client.db(dbName).collection(collectionName);
   
@@ -16,18 +16,20 @@ export async function POST(req: Request) {
       stripNewLines: true,
     }), {
     collection,
-    indexName: "default",
+    indexName: "pdf-docs",
     textKey: "text", 
     embeddingKey: "embedding",
   });
 
-  const retriever = vectorStore.asRetriever({
-    searchType: "mmr",
-    searchKwargs: {
-      fetchK: 20,
-      lambda: 0.1,
-    },
-  });
+  const retriever = vectorStore.asRetriever(
+  //   {
+  //   searchType: "mmr",
+  //   searchKwargs: {
+  //     fetchK: 20,
+  //     lambda: 0.1,
+  //   },
+  // }
+);
   
   const retrieverOutput = await retriever.getRelevantDocuments(question);
   
