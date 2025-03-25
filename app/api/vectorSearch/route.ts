@@ -4,7 +4,7 @@ import mongoClientPromise from '@/app/lib/mongodb';
 
 export async function POST(req: Request) {
   const client = await mongoClientPromise;
-  const dbName = "docs";
+  const dbName = "pdf-docs";
   const collectionName = "embeddings";
   const collection = client.db(dbName).collection(collectionName);
   

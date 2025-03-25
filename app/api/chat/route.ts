@@ -18,15 +18,31 @@ export async function POST(req: Request) {
     body: currentMessageContent,
   }).then((res) => res.json());
 
-  const TEMPLATE = `You are a very enthusiastic freeCodeCamp.org representative who loves to help people! Given the following sections from the freeCodeCamp.org contributor documentation, answer the question using only that information, outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."
+  // const TEMPLATE = `You are a very enthusiastic freeCodeCamp.org representative who loves to help people! Given the following sections from the freeCodeCamp.org contributor documentation, answer the question using only that information, outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."
   
-  Context sections:
-  ${JSON.stringify(vectorSearch)}
+  // Context sections:
+  // ${JSON.stringify(vectorSearch)}
 
-  Question: """
-  ${currentMessageContent}
-  """
-  `;
+  // Question: """
+  // ${currentMessageContent}
+  // """
+  // `;
+
+  const TEMPLATE = `You are an expert assistant answering questions based only on the indexed content of the two academic papers related to Retrieval-Augmented Generation (RAG) and Agentic RAG.
+
+Use retrieved context to answer user queries. Do not make up answers.
+
+Context:
+${JSON.stringify(vectorSearch)}
+
+Question:
+${currentMessageContent}
+
+Answer:
+`;
+
+  console.log(TEMPLATE)
+
 
   messages[messages.length -1].content = TEMPLATE;
 
