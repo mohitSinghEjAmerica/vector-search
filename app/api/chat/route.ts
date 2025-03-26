@@ -45,7 +45,7 @@ ${currentMessageContent}
 Answer:
 `;
 
-  console.log(TEMPLATE)
+  // console.log(TEMPLATE)
 
 
   messages[messages.length -1].content = TEMPLATE;
