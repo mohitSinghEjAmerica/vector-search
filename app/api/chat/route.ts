@@ -18,6 +18,10 @@ export async function POST(req: Request) {
     body: currentMessageContent,
   }).then((res) => res.json());
 
+  const previousConversation = messages.reverse()
+  .filter((m: { role: string; content: string }, idx: number) => idx < 4 && m.role === 'user')
+  .reverse()
+
   // const TEMPLATE = `You are a very enthusiastic freeCodeCamp.org representative who loves to help people! Given the following sections from the freeCodeCamp.org contributor documentation, answer the question using only that information, outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."
   
   // Context sections:
@@ -33,7 +37,7 @@ export async function POST(req: Request) {
 Use retrieved context to answer user queries. Do not make up answers.
 
 Context:
-${JSON.stringify(vectorSearch)}
+${JSON.stringify(vectorSearch) + JSON.stringify(previousConversation)}
 
 Question:
 ${currentMessageContent}
