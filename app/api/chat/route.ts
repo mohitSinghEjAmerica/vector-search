@@ -7,6 +7,7 @@ export const runtime = 'edge';
 export async function POST(req: Request) {
   const { messages } = await req.json();
   const currentMessageContent = messages[messages.length - 1].content;
+  // console.log(messages)
 
   const baseUrl = process.env.BASE_URL || "http://localhost:3000";
 
@@ -17,6 +18,9 @@ export async function POST(req: Request) {
     },
     body: currentMessageContent,
   }).then((res) => res.json());
+
+  const previousConversation = messages.reverse()
+  .filter((m: { role: string; content: string }, idx: number) => idx < 8 );
 
   // const TEMPLATE = `You are a very enthusiastic freeCodeCamp.org representative who loves to help people! Given the following sections from the freeCodeCamp.org contributor documentation, answer the question using only that information, outputted in markdown format. If you are unsure and the answer is not explicitly written in the documentation, say "Sorry, I don't know how to help with that."
   
@@ -33,7 +37,7 @@ export async function POST(req: Request) {
 Use retrieved context to answer user queries. Do not make up answers.
 
 Context:
-${JSON.stringify(vectorSearch)}
+${JSON.stringify(vectorSearch) + JSON.stringify(previousConversation)}
 
 Question:
 ${currentMessageContent}
@@ -41,7 +45,7 @@ ${currentMessageContent}
 Answer:
 `;
 
-  // console.log(TEMPLATE)
+  console.log(TEMPLATE)
 
 
   messages[messages.length -1].content = TEMPLATE;
